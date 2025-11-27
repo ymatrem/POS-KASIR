@@ -74,7 +74,8 @@ A complete, production-ready **Point of Sale (POS) Admin Dashboard** with real-t
    ```
 
 5. **Create database and run migrations**
-   ```bash
+   ```bash![WhatsApp Image 2025-11-27 at 18 30 40](https://github.com/user-attachments/assets/57bbf2ba-0e8d-43c8-9a16-0830cec90bf3)
+
    mysql -u root -e "CREATE DATABASE pos_kasir;"
    php artisan migrate:fresh --seed
    ```
