@@ -1,3 +1,5 @@
+<img width="939" height="428" alt="image" src="https://github.com/user-attachments/assets/b9c783dc-fc1c-4fd7-a7cb-455cf19e2187" />
+
 # 🍔 POS Kasir - Admin Dashboard
 
 A complete, production-ready **Point of Sale (POS) Admin Dashboard** with real-time analytics, menu management, and order tracking. Built with **Laravel 11**, **Tailwind CSS**, and **Chart.js**.
