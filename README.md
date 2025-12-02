@@ -1,4 +1,6 @@
 <img width="939" height="428" alt="image" src="https://github.com/user-attachments/assets/b9c783dc-fc1c-4fd7-a7cb-455cf19e2187" />
+<img width="751" height="417" alt="image" src="https://github.com/user-attachments/assets/6758a2fd-1e99-4f3a-b684-f0fb76694762" />
+
 
 # 🍔 POS Kasir - Admin Dashboard
 
