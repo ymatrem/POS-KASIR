@@ -19,7 +19,7 @@ class CashierController extends Controller
         $categories = Menu::distinct('category_id')->pluck('category_id')->map(function ($id) {
             return Menu::where('category_id', $id)->first()?->category;
         })->filter()->values();
-        
+
         return view('cashier.index', compact('menus', 'categories'));
     }
 
@@ -34,11 +34,30 @@ class CashierController extends Controller
         ]);
 
         $menu = Menu::findOrFail($request->menu_id);
+
+        // Validasi stok
+        if (!$menu->hasEnoughStock($request->quantity)) {
+            return response()->json([
+                'success' => false,
+                'message' => "Stok {$menu->name} tidak cukup. Stok tersedia: {$menu->stock}",
+            ], 422);
+        }
+
         $cart = session()->get('cashier_cart', []);
 
         // Check if item already in cart
         if (isset($cart[$menu->id])) {
-            $cart[$menu->id]['quantity'] += $request->quantity;
+            $newQuantity = $cart[$menu->id]['quantity'] + $request->quantity;
+
+            // Validasi total stok
+            if (!$menu->hasEnoughStock($newQuantity)) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Stok {$menu->name} tidak cukup. Stok tersedia: {$menu->stock}, diminta total: {$newQuantity}",
+                ], 422);
+            }
+
+            $cart[$menu->id]['quantity'] = $newQuantity;
         } else {
             $cart[$menu->id] = [
                 'id' => $menu->id,
@@ -149,6 +168,17 @@ class CashierController extends Controller
             ], 400);
         }
 
+        // Validasi stok untuk semua item di keranjang
+        foreach ($cart as $item) {
+            $menu = Menu::find($item['id']);
+            if (!$menu->hasEnoughStock($item['quantity'])) {
+                return response()->json([
+                    'success' => false,
+                    'message' => "Stok {$menu->name} tidak cukup. Stok tersedia: {$menu->stock}",
+                ], 422);
+            }
+        }
+
         try {
             // Calculate totals
             $totalAmount = 0;
@@ -175,10 +205,10 @@ class CashierController extends Controller
                 'completed_at' => now(),
             ]);
 
-            // Create order items
+            // Create order items and decrease stock
             foreach ($cart as $item) {
                 $discountPerItem = ($item['price'] * $item['quantity'] * $discountPercentage) / 100;
-                
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'menu_id' => $item['id'],
@@ -187,8 +217,10 @@ class CashierController extends Controller
                     'discount' => $discountPerItem,
                 ]);
 
-                // Update menu sold quantity
-                Menu::find($item['id'])->increment('sold_quantity', $item['quantity']);
+                // Update menu sold quantity and decrease stock
+                $menu = Menu::find($item['id']);
+                $menu->increment('sold_quantity', $item['quantity']);
+                $menu->decreaseStock($item['quantity']);
             }
 
             // Clear cart

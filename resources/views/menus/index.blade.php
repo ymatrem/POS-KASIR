@@ -11,7 +11,7 @@
         <div>
             <h2 class="text-2xl font-bold text-gray-800">Item Menu</h2>
         </div>
-        <a href="{{ route('menus.create') }}" class="bg-orange-500 text-white px-4 py-2 rounded-lg hover:bg-orange-600 transition">
+        <a href="{{ route('menus.create') }}" class="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition">
             <i class="fas fa-plus mr-2"></i> Tambah Menu Baru
         </a>
     </div>
@@ -34,7 +34,7 @@
                 <!-- Content -->
                 <div class="p-4">
                     <h3 class="font-semibold text-gray-800 mb-1 truncate">{{ $menu->name }}</h3>
-                    
+
                     <!-- Category Badge -->
                     <span class="inline-block px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs font-semibold mb-3">
                         {{ $menu->category->name ?? 'N/A' }}
@@ -47,6 +47,18 @@
                     <div class="mb-3">
                         <p class="text-orange-600 font-bold text-lg">Rp {{ number_format($menu->price, 0, ',', '.') }}</p>
                         <p class="text-gray-500 text-xs">Terjual: {{ $menu->sold_quantity }}</p>
+                    </div>
+
+                    <!-- Stock Status -->
+                    <div class="mb-3 p-2 rounded-lg @if($menu->stock <= 0) bg-red-100 @elseif($menu->stock <= 5) bg-yellow-100 @else bg-green-100 @endif">
+                        <p class="font-semibold @if($menu->stock <= 0) text-red-700 @elseif($menu->stock <= 5) text-yellow-700 @else text-green-700 @endif text-sm">
+                            📦 Stok: {{ $menu->stock }}
+                            @if($menu->stock <= 0)
+                                <span class="text-xs">⚠️ Habis</span>
+                            @elseif($menu->stock <= 5)
+                                <span class="text-xs">⚠️ Terbatas</span>
+                            @endif
+                        </p>
                     </div>
 
                     <!-- Actions -->

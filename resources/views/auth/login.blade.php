@@ -55,17 +55,10 @@
 
             <!-- Register Link -->
             <div class="text-center">
-                <p class="text-gray-600 text-sm">Don't have an account? 
+                <p class="text-gray-600 text-sm">Don't have an account?
                     <a href="{{ route('register') }}" class="text-orange-600 font-semibold hover:text-orange-700">Register here</a>
                 </p>
             </div>
-        </div>
-
-        <!-- Demo Credentials -->
-        <div class="bg-gray-50 px-6 py-4 rounded-b-lg border-t border-gray-200">
-            <p class="text-gray-600 text-xs text-center mb-2 font-semibold">Demo Credentials:</p>
-            <p class="text-gray-600 text-xs text-center">Email: demo@example.com</p>
-            <p class="text-gray-600 text-xs text-center">Password: password</p>
         </div>
     </div>
 </body>

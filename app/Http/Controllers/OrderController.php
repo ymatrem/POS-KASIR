@@ -34,6 +34,18 @@ class OrderController extends Controller
             'items.*.discount' => 'nullable|numeric|min:0',
         ]);
 
+        // Validasi stok untuk semua item
+        foreach ($validated['items'] as $item) {
+            $menu = Menu::find($item['menu_id']);
+
+            if (!$menu->hasEnoughStock($item['quantity'])) {
+                return back()->withErrors([
+                    'stock_error' => "Stok {$menu->name} tidak cukup. Stok tersedia: {$menu->stock}, diminta: {$item['quantity']}"
+                ])->withInput();
+            }
+        }
+
+        // Jika semua stok cukup, buat order
         $order = Order::create([
             'order_number' => 'ORD-' . time(),
             'total_amount' => $validated['total_amount'],
@@ -54,6 +66,8 @@ class OrderController extends Controller
 
             $menu = Menu::find($item['menu_id']);
             $menu->increment('sold_quantity', $item['quantity']);
+            // Kurangi stok
+            $menu->decreaseStock($item['quantity']);
         }
 
         return redirect()->route('orders.index')->with('success', 'Order berhasil dibuat');

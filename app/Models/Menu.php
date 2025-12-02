@@ -13,6 +13,7 @@ class Menu extends Model
         'image_url',
         'category_id',
         'sold_quantity',
+        'stock',
     ];
 
     protected $casts = [
@@ -28,5 +29,25 @@ class Menu extends Model
     public function category()
     {
         return $this->belongsTo(Category::class);
+    }
+
+    // Cek apakah stok cukup
+    public function hasEnoughStock($quantity)
+    {
+        return $this->stock >= $quantity;
+    }
+
+    // Kurangi stok
+    public function decreaseStock($quantity)
+    {
+        $this->stock -= $quantity;
+        $this->save();
+    }
+
+    // Tambah stok
+    public function increaseStock($quantity)
+    {
+        $this->stock += $quantity;
+        $this->save();
     }
 }

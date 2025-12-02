@@ -16,7 +16,7 @@
                     <p class="text-sm text-gray-500 mb-2">Total Pendapatan</p>
                     <p class="text-3xl font-bold text-gray-800">Rp {{ number_format($totalRevenue, 0, ',', '.') }}</p>
                     <p class="text-sm text-green-600 mt-2">
-                        <i class="fas fa-arrow-up"></i> 10.5% Dari bulan lalu
+
                     </p>
                 </div>
                 <div class="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center">
@@ -32,7 +32,7 @@
                     <p class="text-sm text-gray-500 mb-2">Total Pesanan</p>
                     <p class="text-3xl font-bold text-gray-800">{{ $totalOrders }}</p>
                     <p class="text-sm text-green-600 mt-2">
-                        <i class="fas fa-arrow-up"></i> 1.2% Dari bulan lalu
+
                     </p>
                 </div>
                 <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -48,7 +48,7 @@
                     <p class="text-sm text-gray-500 mb-2">Rata-rata Penjualan</p>
                     <p class="text-3xl font-bold text-gray-800">Rp {{ number_format($averageSale, 0, ',', '.') }}</p>
                     <p class="text-sm text-green-600 mt-2">
-                        <i class="fas fa-arrow-up"></i> 3.5% Dari bulan lalu
+
                     </p>
                 </div>
                 <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
@@ -58,20 +58,7 @@
         </div>
 
         <!-- Total Discount -->
-        <div class="bg-white rounded-lg shadow p-6">
-            <div class="flex items-start justify-between">
-                <div>
-                    <p class="text-sm text-gray-500 mb-2">Total Diskon</p>
-                    <p class="text-3xl font-bold text-gray-800">Rp {{ number_format($totalDiscount, 0, ',', '.') }}</p>
-                    <p class="text-sm text-red-600 mt-2">
-                        <i class="fas fa-arrow-down"></i> 2.8% Dari bulan lalu
-                    </p>
-                </div>
-                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
-                    <i class="fas fa-tag text-green-600 text-xl"></i>
-                </div>
-            </div>
-        </div>
+
     </div>
 
     <!-- Charts & Popular Menu -->
@@ -111,7 +98,7 @@
         <div class="lg:col-span-2 bg-white rounded-lg shadow p-6">
             <div class="flex items-center justify-between mb-6">
                 <h3 class="text-lg font-semibold text-gray-800">Menu Terpopuler</h3>
-                <input type="text" placeholder="Cari menu..." class="px-4 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500">
+
             </div>
 
             <div class="overflow-x-auto">
@@ -122,7 +109,6 @@
                             <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Menu</th>
                             <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Harga</th>
                             <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Terjual</th>
-                            <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Diskon</th>
                             <th class="text-left py-3 px-4 text-sm font-semibold text-gray-600">Total Pendapatan</th>
                         </tr>
                     </thead>
@@ -144,7 +130,6 @@
                                 </td>
                                 <td class="py-3 px-4 text-sm">Rp {{ number_format($menu->price, 0, ',', '.') }}</td>
                                 <td class="py-3 px-4 text-sm">{{ $menu->sold_quantity }}</td>
-                                <td class="py-3 px-4 text-sm">10%</td>
                                 <td class="py-3 px-4 text-sm font-semibold">Rp {{ number_format($menu->price * $menu->sold_quantity, 0, ',', '.') }}</td>
                             </tr>
                         @empty

@@ -25,7 +25,7 @@
             <!-- Menu Grid -->
             <div class="grid grid-cols-5 gap-3">
                 @foreach($menus as $menu)
-                    <div class="menu-card bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer" data-menu-id="{{ $menu->id }}" data-category="{{ $menu->category_id }}">
+                    <div class="menu-card bg-white rounded-lg shadow hover:shadow-lg transition cursor-pointer relative" data-menu-id="{{ $menu->id }}" data-category="{{ $menu->category_id }}" @if($menu->stock <= 0) style="opacity: 0.6;" @endif>
                         <!-- Image -->
                         <div class="relative bg-gray-200 h-24 overflow-hidden rounded-t-lg">
                             @if($menu->image_url)
@@ -35,6 +35,11 @@
                                     <i class="fas fa-image text-gray-400 text-2xl"></i>
                                 </div>
                             @endif
+
+                            <!-- Stock Badge -->
+                            <div class="absolute top-1 right-1 px-2 py-1 rounded text-xs font-semibold @if($menu->stock <= 0) bg-red-500 text-white @elseif($menu->stock <= 5) bg-yellow-500 text-white @else bg-green-500 text-white @endif">
+                                Stok: {{ $menu->stock }}
+                            </div>
                         </div>
 
                         <!-- Content -->
@@ -46,8 +51,12 @@
                             <!-- Price and Add Button -->
                             <div class="flex flex-col gap-1">
                                 <p class="text-sm font-bold text-orange-600">Rp {{ number_format($menu->price, 0, ',', '.') }}</p>
-                                <button class="add-to-cart-btn bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition text-xs w-full" data-menu-id="{{ $menu->id }}" data-menu-name="{{ $menu->name }}">
-                                    <i class="fas fa-shopping-cart mr-1"></i> Tambah
+                                <button class="add-to-cart-btn bg-blue-500 text-white px-2 py-1 rounded-lg hover:bg-blue-600 transition text-xs w-full" data-menu-id="{{ $menu->id }}" data-menu-name="{{ $menu->name }}" @if($menu->stock <= 0) disabled style="opacity: 0.5; cursor: not-allowed;" @endif>
+                                    @if($menu->stock <= 0)
+                                        <i class="fas fa-times mr-1"></i> Habis
+                                    @else
+                                        <i class="fas fa-shopping-cart mr-1"></i> Tambah
+                                    @endif
                                 </button>
                             </div>
                         </div>
@@ -171,7 +180,7 @@
     document.querySelectorAll('.category-filter').forEach(btn => {
         btn.addEventListener('click', function() {
             const selectedCategory = this.dataset.category;
-            
+
             // Update button styles
             document.querySelectorAll('.category-filter').forEach(b => b.classList.remove('bg-orange-500', 'text-white'));
             document.querySelectorAll('.category-filter').forEach(b => b.classList.add('bg-white', 'text-gray-700', 'border', 'border-gray-300'));
@@ -192,7 +201,7 @@
     // Confirm quantity
     document.getElementById('confirmQuantityBtn').addEventListener('click', function() {
         const quantity = parseInt(document.getElementById('quantityInput').value);
-        
+
         if (quantity > 0) {
             fetch('{{ route("cashier.add-to-cart") }}', {
                 method: 'POST',
@@ -293,7 +302,7 @@
     function updateTotals(subtotal, discount) {
         const discountAmount = (subtotal * discount) / 100;
         const total = subtotal - discountAmount;
-        
+
         document.getElementById('subtotal').textContent = subtotal.toLocaleString('id-ID');
         document.getElementById('totalAmount').textContent = total.toLocaleString('id-ID');
     }

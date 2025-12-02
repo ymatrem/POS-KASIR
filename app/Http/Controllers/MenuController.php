@@ -27,6 +27,7 @@ class MenuController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_url' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
@@ -60,6 +61,7 @@ class MenuController extends Controller
             'name' => 'required|string|max:255',
             'description' => 'nullable|string',
             'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'image_url' => 'nullable|string',
             'category_id' => 'required|exists:categories,id',
@@ -94,7 +96,7 @@ class MenuController extends Controller
         ]);
 
         $path = $request->file('image')->store('menus', 'public');
-        
+
         return response()->json([
             'success' => true,
             'url' => Storage::url($path),

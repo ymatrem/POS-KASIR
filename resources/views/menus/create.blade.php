@@ -38,6 +38,16 @@
                     </div>
 
                     <div>
+                        <label for="stock" class="block text-sm font-semibold text-gray-700 mb-2">Stok *</label>
+                        <input type="number" id="stock" name="stock" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 @error('stock') border-red-500 @enderror" value="{{ old('stock', 0) }}" min="0" required>
+                        @error('stock')
+                            <p class="text-red-500 text-sm mt-1">{{ $message }}</p>
+                        @enderror
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-6 mb-6">
+                    <div>
                         <label for="category_id" class="block text-sm font-semibold text-gray-700 mb-2">Kategori *</label>
                         <select id="category_id" name="category_id" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 @error('category_id') border-red-500 @enderror" required>
                             <option value="">Pilih Kategori</option>
@@ -54,7 +64,7 @@
                 <!-- Image Upload Section -->
                 <div class="mb-6">
                     <label class="block text-sm font-semibold text-gray-700 mb-3">Gambar Menu</label>
-                    
+
                     <!-- Drag & Drop Area -->
                     <div id="dropZone" class="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-orange-500 hover:bg-orange-50 transition" style="min-height: 200px;">
                         <div id="dropContent">
@@ -130,7 +140,7 @@
         dropZone.addEventListener('drop', (e) => {
             e.preventDefault();
             dropZone.classList.remove('border-orange-500', 'bg-orange-50');
-            
+
             const files = e.dataTransfer.files;
             if (files.length > 0) {
                 handleImageUpload(files[0]);
